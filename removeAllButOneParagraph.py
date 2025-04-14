@@ -44,8 +44,9 @@ def removeAllButOneParagraph(path_to_doc_xml_file, paragraph_header, subparagrap
             root[0].remove(element)
 
     #Remove last pagebreak element
-    if root[0][-1][-1][-1].tag == '{' + NAMESPACE_PREFIXES['w'] + '}br':
-        root[0].remove(root[0][-1])
+    if len(root[0]) > 0 and len(root[0][-1]) > 0 and len(root[0][-1][-1]) > 0 and len(root[0][-1][-1]) > 0:
+        if root[0][-1][-1].tag == '{' + NAMESPACE_PREFIXES['w'] + '}br':
+            root[0].remove(root[0][-1])
 
     with open(path_to_doc_xml_file, 'wb') as file:
         file.write(etree.tostring(tree, pretty_print=True, xml_declaration=True, encoding='UTF-8'))
