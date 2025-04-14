@@ -1,6 +1,6 @@
 import zipfile
 import os
-from removeAllButOneParagraph import removeAllButOneParagraph
+from removeAllButOneParagraph import removeAllButOneParagraph # type: ignore
 
 def unzipFile(zip_file_path, output_dir):
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
@@ -14,7 +14,6 @@ def rezipFile(output_dir, zip_file_path):
                 zip_ref.write(file_path, os.path.relpath(file_path, output_dir))
 
 def main(path_to_word_file):
-
     #Registreringsregler
     unzipFile(path_to_word_file, "unzipped")
     removeAllButOneParagraph("unzipped/word/document.xml", "Registreringsregler med eksempler", "Registreringsregler", "Overskrift2")
