@@ -1,2 +1,5 @@
-# remove_docx_content
-Python script for removing chapters from a docx-file. The script unzips the file, removes specific chapters, and then rezips the docx file again.
+# Remove Docx Content
+Python script for removing a paragraph from a docx-file. 
+All paragraphs except the ones specified by either paragraph header text or subparagraph header text are removed. The document needs a table of contents, because I chose to use bookmark names, and the bookmark names of paragraph header text has the prefix "_Toc".
+
+The script unzips the file, removes specific paragraphs, and then rezips into a docx file again.
