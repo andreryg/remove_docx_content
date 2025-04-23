@@ -1,7 +1,8 @@
 import zipfile
 import os
 import shutil
-from removeAllButOneParagraph import removeAllButOneParagraph # type: ignore
+import docx2pdf
+from paragraphToDocx import subsubparagraphToDocx, findSubsubparagraphs, subparagraphToDocx # type: ignore
 
 def unzipFile(zip_file_path, output_dir):
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
@@ -17,16 +18,23 @@ def rezipFile(output_dir, zip_file_path):
 def main(vtid):
     #Registreringsregler
     unzipFile(f"{vtid}.docx", "unzipped")
-    removeAllButOneParagraph("unzipped/word/document.xml", "Registreringsregler med eksempler", "Registreringsregler", "Overskrift2")
+    subparagraphToDocx("unzipped/word/document.xml", "Registreringsregler med eksempler", "Overskrift1", "Registreringsregler", "Overskrift2")
     rezipFile("unzipped", f"{vtid}_registreringsregler.docx")
+    docx2pdf.convert(f"{vtid}_registreringsregler.docx", f"{vtid}_registreringsregler.pdf")
     shutil.rmtree("unzipped")
 
-    #Eksempler
     unzipFile(f"{vtid}.docx", "unzipped")
-    removeAllButOneParagraph("unzipped/word/document.xml", "Registreringsregler med eksempler", "Eksempler", "Overskrift2")
-    rezipFile("unzipped", f"{vtid}_eksempler.docx")
-    shutil.rmtree("unzipped")
+    subsubparagraphs = findSubsubparagraphs("unzipped/word/document.xml", "Registreringsregler med eksempler", "Eksempler", "Overskrift2", 'Overskrift3')
+    for i,subparagraph_header in enumerate(subsubparagraphs):
+        print(subparagraph_header)
+        unzipFile(f"{vtid}.docx", "unzipped")
+        subsubparagraphToDocx("unzipped/word/document.xml", subparagraph_header, "Overskrift1", 'Overskrift3')
+        subparagraph_header = subparagraph_header.replace("/", "£")
+        rezipFile("unzipped", f"{vtid}_Eks_{i+1}_{subparagraph_header}.docx")
+        docx2pdf.convert(f"{vtid}_Eks_{i+1}_{subparagraph_header}.docx", f"{vtid}_Eks_{i+1}_{subparagraph_header}.pdf")
+        shutil.rmtree("unzipped")
+    
 
 if __name__ == "__main__":
-    vtid = 846
+    vtid = 208
     main(vtid)

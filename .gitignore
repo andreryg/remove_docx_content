@@ -1,4 +1,6 @@
 *.docx
+*.pdf
+*.html
 /unzipped/
 .pyc
 __pycache__/
