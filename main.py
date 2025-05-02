@@ -32,6 +32,7 @@ def main(vtid):
     word_ole.save(f"Python Scripts/remove_docx_content/{vtid}_registreringsregler.html", WordSaveFormat.wdFormatHTML)
     word_ole.close()
     shutil.rmtree("unzipped")
+    shutil.rmtree(f"{vtid}_registreringsregler-filer")
 
     #Eksempler
     unzipFile(f"{vtid}.docx", "unzipped")
